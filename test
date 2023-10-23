@@ -1,0 +1,39 @@
+$headers = @{
+    "Content-Type" = "application/json"
+    "api-key" = "c87c9ca705df4ef8ab8249d738d9f017"
+}
+
+$body = @{
+    messages = @(
+        @{ role = "system"; content = "Your system prompt here" },
+        @{ role = "user"; content = "Your test message here" }
+    )
+    max_tokens = 1000
+    temperature = 0.7
+    stream = $true
+}
+
+$response = Invoke-RestMethod -Uri "https://ai-eus2-hdcco.openai.azure.com/openai/deployments/OpenAI-Deployment-GPT4-32K-HDC/chat/completions?api-version=2023-05-15" -Method POST -Headers $headers -Body (ConvertTo-Json $body)
+
+$response
+
+# Define the headers
+$headers = @{
+    "Content-Type" = "application/json"
+    "api-key" = "c87c9ca705df4ef8ab8249d738d9f017" # Replace with your API key if different
+}
+
+# Define the endpoint URL
+$endpoint = "https://ai-eus2-hdcco.openai.azure.com/openai/models?api-version=2023-05-15"
+
+# Make the GET request
+$response = Invoke-RestMethod -Uri $endpoint -Method GET -Headers $headers
+
+# Print the response
+foreach ($model in $response.data) {
+    Write-Host "Model ID: $($model.id)"
+    Write-Host "Status: $($model.status)"
+    Write-Host "Created At: $($model.created_at)"
+    Write-Host "Updated At: $($model.updated_at)"
+    Write-Host "-----------------------------"
+}
